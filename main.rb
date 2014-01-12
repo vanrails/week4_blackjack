@@ -59,20 +59,20 @@ helpers do
     @play_again = true
     @show_hit_or_stay = false
     session[:player_pot] = session[:player_pot] + session[:player_bet]
-    @success = "<strong>#{session[:player_name]} WINS</strong> #{msg}"
+    @winner = "<strong>#{session[:player_name]} WINS</strong> #{msg}"
   end
   
   def loser!(msg)
     @play_again = true
     @show_hit_or_stay = false
     session[:player_pot] = session[:player_pot] - session[:player_bet]
-    @error = "<strong>#{session[:player_name]} LOSES.</strong> #{msg}"  
+    @loser = "<strong>#{session[:player_name]} LOSES.</strong> #{msg}"  
   end
 
   def draw!(msg)
     @play_again = true
     @show_hit_or_stay = false
-    @success = "<strong>DRAW.</strong> #{msg}"
+    @winner = "<strong>DRAW.</strong> #{msg}"
   end
 end
 
@@ -143,7 +143,7 @@ post '/player/hit' do
     loser!("#{session[:player_name]} went bust.")
   end
 
-  erb :game
+  erb :game, layout: false
 end
 
 post '/player/stay' do
@@ -168,7 +168,7 @@ get '/dealer' do
     @show_dealer_hit = true
   end
 
-  erb :game
+  erb :game, layout: false
 end
   
 post '/dealer/hit' do
@@ -190,7 +190,7 @@ get '/game/compare' do
     draw!("Tied at #{player_total}.")
   end  
        
-  erb :game 
+  erb :game, layout: false 
 end
 
 get '/game_over' do
